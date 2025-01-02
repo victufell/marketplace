@@ -9,6 +9,12 @@ import AuthProvider from "../(components)/(auth-provider)"
 import { WrapperFormHeader } from "../(components)/wrapper-form-header"
 import { WrapperSecondaryAction } from "../(components)/wrapper-secondary-action"
 
+import { NameField } from "../(components)/(fields)/name-field"
+import { PhoneField } from "../(components)/(fields)/phone-field"
+import { PasswordField } from "../(components)/(fields)/password-field"
+import { ConfirmPasswordField } from "../(components)/(fields)/confirm-password-field"
+import { EmailField } from "../(components)/(fields)/email-field"
+
 interface IFormInput {
     name: string
     phone: string,
@@ -23,7 +29,7 @@ const SignUp = () => {
     const { register, formState, handleSubmit } = useForm<IFormInput>()
     
     const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data)
-    const onRegisterInput = (inputName: "email" | "password") => {
+    const onRegisterInput = (inputName: "name" | "phone" | "email" | "password" | "confirmPassword") => {
         return register(inputName, { required: true })
     }
     const handleGoToSignIn = () => {
@@ -46,7 +52,34 @@ const SignUp = () => {
                 />
 
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
-                 
+                    <NameField 
+                        className="mb-5"
+                        onRegisterInput={onRegisterInput}
+                    />
+                    <PhoneField 
+                        className="mb-12"
+                        onRegisterInput={onRegisterInput}
+                    />
+
+                    <h3 
+                        className="text-gray-500 text-lg font-bold mb-5"
+                    >
+                        Acesso
+                    </h3>
+
+                    <EmailField 
+                        className="mb-5"
+                        onRegisterInput={onRegisterInput}
+                    />
+                    <PasswordField 
+                        className="mb-5"
+                        onRegisterInput={onRegisterInput}
+                    />
+                    <ConfirmPasswordField 
+                        className="mb-12"
+                        onRegisterInput={onRegisterInput}
+                    />
+                    
                     <button
                         type="submit"
                         disabled={!isButtonAvailable}
