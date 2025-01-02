@@ -30,6 +30,13 @@ export default {
       'danger': '#DC3545',
       'success': '#28A745'
     },
+    extend: {
+      fontFamily: {
+        poppins: ['Poppins', 'sans-serif'],
+        DM_Sans: ['DM-sans', 'sans-serif']
+
+      },
+    }
   },
   plugins: [],
 } satisfies Config;
