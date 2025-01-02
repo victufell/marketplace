@@ -3,26 +3,26 @@ import { BaseInput } from "../base-input"
 import { BaseLabel } from "../base-label"
 import { UseFormRegisterReturn } from "react-hook-form";
 
-interface EmailFieldProps {
-    onRegisterInput: (inputName: "email") => UseFormRegisterReturn;
+interface PhoneFieldProps {
+    onRegisterInput: (inputName: "phone") => UseFormRegisterReturn;
     className?: string;
 }
 
-export function EmailField({ className, onRegisterInput }: EmailFieldProps) {
+export function PhoneField({ className, onRegisterInput }: PhoneFieldProps) {
     return (
         <fieldset className={className ?? className}>
-            <BaseLabel label="E-mail"/>
+            <BaseLabel label="Telefone"/>
             <div className="flex items-center w-full border-b-gray-100 border-b-[1px]">
                 <Image              
-                    alt="Email"
+                    alt="Telefone"
                     width={24}
                     height={24}
-                    src={"/icon/mail-02.svg"}
+                    src={"/icon/call.svg"}
                 />
                 <BaseInput 
-                    type="email"
-                    placeholder="Seu e-mail cadastrado"
-                    onRegisterInput={() => onRegisterInput('email')}
+                    type="phone"
+                    placeholder="(00) 00000-0000"
+                    onRegisterInput={() => onRegisterInput('phone')}
                 />
             </div>
         </fieldset>

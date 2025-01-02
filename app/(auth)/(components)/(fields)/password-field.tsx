@@ -9,9 +9,16 @@ import { useState } from "react";
 interface PasswordFieldProps {
     onRegisterInput: (inputName: "password") => UseFormRegisterReturn;
     className?: string;
+    label?: string,
+    placeholder?: string
 }
 
-export function PasswordField({ className, onRegisterInput }: PasswordFieldProps) {
+export function PasswordField({ 
+    className, 
+    label,
+    placeholder,
+    onRegisterInput 
+}: PasswordFieldProps) {
     const [isPasswordShown, setTogglePasswordView] = useState(false)
     
     const handleToggleShowPassword = () => {
@@ -20,7 +27,7 @@ export function PasswordField({ className, onRegisterInput }: PasswordFieldProps
 
     return (
         <fieldset className={className ?? className}>
-            <BaseLabel label="Senha" />
+            <BaseLabel label={label ? label : "senha"} />
 
             <div className="flex items-center w-full border-b-gray-100 border-b-[1px]">
                 <Image              
@@ -30,8 +37,8 @@ export function PasswordField({ className, onRegisterInput }: PasswordFieldProps
                     src={"/icon/access.svg"}
                 />
                 <BaseInput 
-                    type={isPasswordShown ? 'text' : 'password'}
-                    placeholder="Sua senha de acesso"
+                    type={isPasswordShown ? "text" : "password"}
+                    placeholder={placeholder ? placeholder : "Sua senha de acesso"}
                     onRegisterInput={() => onRegisterInput('password')}
                 />
                 <Image                          
