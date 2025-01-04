@@ -10,19 +10,33 @@ import { EmailField } from "../(components)/(fields)/email-field"
 import { PasswordField } from "../(components)/(fields)/password-field"
 import { WrapperFormHeader } from "../(components)/wrapper-form-header"
 import { WrapperSecondaryAction } from "../(components)/wrapper-secondary-action"
+import api from "@/app/(api)"
 
 interface IFormInput {
     email: string
     password: string
 }
 
+type FormFields = keyof IFormInput;
+
 const SignIn = () => {
     const router = useRouter()
 
     const { register, formState, handleSubmit } = useForm<IFormInput>()
     
-    const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data)
-    const onRegisterInput = (inputName: "email" | "password") => {
+    const onSubmit: SubmitHandler<IFormInput> = async ({ email, password }) => {
+        api.auth.postSignIn({
+            email, 
+            password
+        })
+        .then(() => router.push('/'))
+        .catch((error) => {
+            console.error(error);
+            alert("Email ou senha incorreto, tenta novamente ou tente fazer cadastro")
+        })
+
+    }
+    const onRegisterInput = (inputName: FormFields) => {
         return register(inputName, { required: true })
     }
     const handleGoToSignUp = () => {
@@ -32,7 +46,6 @@ const SignIn = () => {
     const {
         isValid
     } = formState
-
 
     const isButtonAvailable = isValid
 

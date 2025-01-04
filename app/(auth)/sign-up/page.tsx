@@ -14,6 +14,7 @@ import { PhoneField } from "../(components)/(fields)/phone-field"
 import { PasswordField } from "../(components)/(fields)/password-field"
 import { ConfirmPasswordField } from "../(components)/(fields)/confirm-password-field"
 import { EmailField } from "../(components)/(fields)/email-field"
+import api from "@/app/(api)"
 
 interface IFormInput {
     name: string
@@ -24,18 +25,48 @@ interface IFormInput {
     avatar: string
 }
 
+interface IFormSignin {
+    email: string
+    password: string
+}
+
+type FormFields = keyof IFormInput;
+
 const SignUp = () => {
     const router = useRouter()
     const { register, formState, handleSubmit } = useForm<IFormInput>()
+
+    const handleSignin = ({ email, password }: IFormSignin) => {
+        return api.auth.postSignIn({  email, password })
+    }
+
+    const handleNavigationToDashboard = () => {
+        router.push('/')
+    }
     
-    const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data)
-    const onRegisterInput = (inputName: "name" | "phone" | "email" | "password" | "confirmPassword") => {
+    const onSubmit: SubmitHandler<IFormInput> = ({ name, phone, email, password, confirmPassword, avatar }) => {
+        api.auth.postSignUp({
+            name,
+            phone,
+            email,
+            avatarId: avatar,
+            password,
+            passwordConfirmation: confirmPassword
+        })
+        .then(() => handleSignin({ email, password }))
+        .then(handleNavigationToDashboard)
+        .catch((error) => {
+            alert("Tivemos problemas em concluir seu cadastro, tente novamente mais tarde!")
+            console.error(error)
+        })  
+        
+    }
+    const onRegisterInput = (inputName: FormFields) => {
         return register(inputName, { required: true })
     }
     const handleGoToSignIn = () => {
         router.push('/sign-in')
     }
-    console.log(onRegisterInput)
 
     const {
         isValid
@@ -85,9 +116,9 @@ const SignUp = () => {
                         disabled={!isButtonAvailable}
                         className="text-white font-medium bg-orange-base flex justify-between text-base py-[18px] px-5 rounded-[10px] border-none cursor-pointer"
                     >
-                        Acessar
+                        Cadastrar
                         <Image
-                            alt="Acessar"
+                            alt="Cadastrar"
                             width={24}
                             height={24}
                             src={"/icon/arrow-right-02.svg"}
